@@ -22,8 +22,10 @@ app.post('/api/weather', (request, response) => {
     });
 
 // Gets the latest temperature and humidity from file
-app.get('/api/weather', (request, response) => {
-    response.send(weather.getWeather(config, app.settings.env));
+app.get('/api/weather', async (request, response) => {
+    const currentWeather = await weather.getWeather(config, app.settings.env);
+    console.log(currentWeather);
+    response.send(currentWeather);
     });
 
 module.exports = app;

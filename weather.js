@@ -1,6 +1,7 @@
 // Get the latest weather in the weather file
 const fs = require('fs');
-const lastLine = require('last-line');
+const readLastLines = require('read-last-lines');
+const path = require('path');
 
 // Adds a new weather in the format timestamp;moduleId;temperature;humidityPercent;pressure 
 // for the current date and time.
@@ -10,7 +11,7 @@ exports.addNewWeather = (weatherData, config, env) => {
        console.log("No weather found");
        return;
     }
-    let weatherEntry = Date.now() + ";" + weatherData + "\r\n";
+    let weatherEntry = Date.now() + ";" + weatherData + "\n";
     fs.open(__dirname + "/" + config.weatherFile[env], 'a', (error, fileDescriptor) => {
         if (error) {
             console.log(error);
@@ -32,21 +33,17 @@ exports.addNewWeather = (weatherData, config, env) => {
     });
 };
 // Returns the last weather information
-exports.getWeather = (config, env) => {
-    let currentWeather = new Object();
-    lastLine(__dirname + "/" + config.weatherFile[env], function (err, res) {
-        if (res !== undefined) {
-            var weatherInfo = res.split(';');
-            // Format:timestamp;moduleId;temperature;humidityPercent;pressure 
-            currentWeather.moduleId = weatherInfo[1];
-            currentWeather.temperature = weatherInfo[2];
-            currentWeather.humidity = weatherInfo[3];
-            currentWeather.pressure = weatherInfo[4];
-            }
-        else {
-            console.log(err);
-        }
-        });
+exports.getWeather = async (config, env) => {
+    var currentWeather = new Object();
+    const line = await readLastLines.read(path.join(__dirname, config.weatherFile[env]), 1);
+
+    const weatherInfo = line.trim().split(';');
+    // Format:timestamp;moduleId;temperature;humidityPercent;pressure 
+    currentWeather.moduleId = weatherInfo[1];
+    currentWeather.temperature = weatherInfo[2];
+    currentWeather.humidity = weatherInfo[3];
+    currentWeather.pressure = weatherInfo[4];  
+
     return (currentWeather);
 };
 
