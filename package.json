@@ -43,7 +43,8 @@
     "nodemon": "^1.18.10",
     "read-last-lines": "^1.7.1",
     "request": "^2.88.0",
-    "resolve": "1.10.0"
+    "resolve": "1.10.0",
+    "socket.io": "^2.2.0"
   },
   "browserslist": [
     ">0.2%",
