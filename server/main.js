@@ -1,14 +1,28 @@
 import { Meteor } from "meteor/meteor";
 import { weathers } from "../imports/collections/weather";
 import bodyParser from "body-parser";
+import { ReactiveAggregate } from "meteor/jcbernack:reactive-aggregate";
 
 Meteor.startup(() => {
-  // code to run on server at startup
-
   Meteor.publish("currentWeather", function() {
     // Get the current (latest) weather
-    // TODO: specify the identifier of a weather sensor. For now, only one module is supported.
-    return weathers.find({}, { sort: { createdAt: -1 }, limit: 1 });
+    // Aggregation example:
+    // http://hudsonburgess.com/2017/01/04/mongodb-first-doc-by-group.html
+    var pipeline = [
+      { $sort: { createdAt: -1 } },
+      {
+        $group: {
+          _id: "$moduleId",
+          weathers: { $push: "$$ROOT" }
+        }
+      },
+      {
+        $replaceRoot: {
+          newRoot: { $arrayElemAt: ["$weathers", 0] }
+        }
+      }
+    ];
+    ReactiveAggregate(this, weathers, pipeline);
   });
 
   WebApp.connectHandlers.use("/api/weather", bodyParser.json());

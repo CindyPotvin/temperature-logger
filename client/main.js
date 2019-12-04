@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Meteor } from "meteor/meteor";
-import Weather from "./components/Weather/Weather";
+import Weathers from "./components/Weathers/Weathers";
+
+import "semantic-ui-css/semantic.min.css";
 
 import "./main.html";
 
@@ -9,7 +11,9 @@ Meteor.startup(() => {
   ReactDOM.render(
     <div className="App">
       <h1>Temperature logger</h1>
-      <Weather />
+      <div className="ui cards">
+        <Weathers />
+      </div>
     </div>,
     document.querySelector("#root")
   );
