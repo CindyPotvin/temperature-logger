@@ -6,14 +6,13 @@ import Weathers from "./components/Weathers/Weathers";
 import "semantic-ui-css/semantic.min.css";
 
 import "./main.html";
+import WeatherVizualization from "./components/Weathers/WeatherVisualization";
 
 Meteor.startup(() => {
   ReactDOM.render(
     <div className="App">
       <h1>Temperature logger</h1>
-      <div className="ui cards">
-        <Weathers />
-      </div>
+      <Weathers />
     </div>,
     document.querySelector("#root")
   );
