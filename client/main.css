@@ -24,3 +24,18 @@ h2 {
 .WeatherVizualization {
   width: 100%;
 }
+
+.Banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SettingsPopupTrigger {
+  margin-bottom: 1em;
+  margin-left: 1em;
+}
+
+.AddModule {
+  padding-bottom: 5px !important;
+}

@@ -9,7 +9,8 @@ const WeatherVizualization = props => {
   return (
     <div className="ui piled segment WeatherVizualization">
       <h2 className="ui header">
-        Temperature for the last 30 days for module #{props.currentModuleId}
+        Temperature for the last 30 days for module #{props.currentWeatherModule.moduleId} -{" "}
+        {props.currentWeatherModule.description}
       </h2>
       <div
         className="chart-container"

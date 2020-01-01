@@ -1,10 +1,12 @@
 import { Meteor } from "meteor/meteor";
 import { weathers } from "../imports/collections/weather";
+import { weatherModules } from "../imports/collections/weatherModule";
 import bodyParser from "body-parser";
 import { ReactiveAggregate } from "meteor/jcbernack:reactive-aggregate";
 import url from "url";
 
 Meteor.startup(() => {
+  weatherModules.rawCollection().createIndex({ moduleId: 1 }, { unique: true });
   // **** Meteor publish that will automatically send up to date data.
 
   // Get the current (latest) weather for each module
@@ -26,6 +28,11 @@ Meteor.startup(() => {
       }
     ];
     ReactiveAggregate(this, weathers, pipeline);
+  });
+
+  // Publish the list of module
+  Meteor.publish("weatherModules", function() {
+    return weatherModules.find({}, { $sort: { moduleId: 1 } });
   });
 
   // **** API endpoint to get or set data on demand only

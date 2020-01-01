@@ -5,7 +5,9 @@ const drawWeatherVisualization = async props => {
   var ctx = document.getElementById("myChart").getContext("2d");
   let response;
   try {
-    response = await axios.get("/api/temperatureHistory?moduleId=" + props.currentModuleId);
+    response = await axios.get(
+      "/api/temperatureHistory?moduleId=" + props.currentWeatherModule.moduleId
+    );
   } catch (error) {
     console.error(error);
   }
