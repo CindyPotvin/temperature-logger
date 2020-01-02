@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
+import { withTranslation } from "react-i18next";
 import drawWeatherVisualization from "../../chart/WeatherVisualization.js";
 
-const WeatherVizualization = props => {
+const WeatherVizualization = ({ currentWeatherModule, t }) => {
   useEffect(() => {
-    drawWeatherVisualization(props);
-  }, [props]);
+    drawWeatherVisualization(currentWeatherModule);
+  }, [currentWeatherModule]);
 
   return (
     <div className="ui piled segment WeatherVizualization">
       <h2 className="ui header">
-        Temperature for the last 30 days for module #{props.currentWeatherModule.moduleId} -{" "}
-        {props.currentWeatherModule.description}
+        {t("WeatherVisualization.visualization-title")}
+        {t("common.module-title", { currentWeatherModule })}
       </h2>
       <div
         className="chart-container"
@@ -22,4 +23,4 @@ const WeatherVizualization = props => {
   );
 };
 
-export default WeatherVizualization;
+export default withTranslation()(WeatherVizualization);

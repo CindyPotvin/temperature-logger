@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import Popup from "reactjs-popup";
 import { withTracker } from "meteor/react-meteor-data";
 import { weatherModules } from "../../imports/collections/weatherModule";
 import { Meteor } from "meteor/meteor";
 
 const SettingsPopup = props => {
+  const { t } = useTranslation();
   const [newModuleId, setNewModuleId] = useState("");
   const [newModuleDescription, setNewModuleDescription] = useState("");
 
@@ -51,7 +53,7 @@ const SettingsPopup = props => {
         <div className="content">
           {props.weatherModules && props.weatherModules.length != 0 && (
             <div className="ui info message">
-              <p>Please set a name for each module.</p>
+              <p>{t("SettingsPopup.existing-modules")}</p>
             </div>
           )}
           <div>
@@ -75,7 +77,7 @@ const SettingsPopup = props => {
                       onRemoveModuleClick(event, currentModule);
                     }}
                   >
-                    Remove
+                    {t("SettingsPopup.remove")}
                   </button>
                 </div>
               );
@@ -86,7 +88,7 @@ const SettingsPopup = props => {
             <div className="eleven wide column">
               <div className="fields">
                 <div className="field">
-                  <label>Identifier</label>
+                  <label>{t("SettingsPopup.identifier")}</label>
                   <input
                     type="text"
                     name="new_id"
@@ -95,7 +97,7 @@ const SettingsPopup = props => {
                   />
                 </div>
                 <div className="field">
-                  <label>Description </label>
+                  <label>{t("SettingsPopup.description")}</label>
                   <input
                     type="text"
                     name="new_description"
@@ -107,7 +109,7 @@ const SettingsPopup = props => {
             </div>
             <div className="five wide column AddModule">
               <button className="ui button" onClick={onAddModuleClick}>
-                Add module
+                {t("SettingsPopup.add")}
               </button>
             </div>
           </div>

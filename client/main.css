@@ -36,6 +36,11 @@ h2 {
   margin-left: 1em;
 }
 
+.LanguageBar {
+  padding-bottom: 1em;
+  padding-left: 1em;
+}
+
 .AddModule {
   padding-bottom: 5px !important;
 }

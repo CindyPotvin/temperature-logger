@@ -2,14 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Meteor } from "meteor/meteor";
 
+import App from "./components/App";
+import "./i18n";
+
 import "semantic-ui-css/semantic.min.css";
 import { dom, library } from "@fortawesome/fontawesome-svg-core";
 import { faCog } from "@fortawesome/free-solid-svg-icons/faCog";
 import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 
 import "./main.html";
-import WeatherVizualization from "./components/Weathers/WeatherVisualization";
-import SettingsPopup from "./components/SettingsPopup";
 
 Meteor.startup(() => {
   // Add only required symbols from fontawesome
@@ -18,14 +19,5 @@ Meteor.startup(() => {
   library.add(faTimes);
   dom.watch();
 
-  ReactDOM.render(
-    <div className="App">
-      <div className="Banner">
-        <h1>{props.t("App.title")}</h1>
-        <SettingsPopup />
-      </div>
-      <Weathers />
-    </div>,
-    document.querySelector("#root")
-  );
+  ReactDOM.render(<App />, document.querySelector("#root"));
 });

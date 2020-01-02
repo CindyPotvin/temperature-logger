@@ -1,0 +1,23 @@
+{
+  "common": {
+    "module-title": "#{{currentWeatherModule.moduleId}} - {{currentWeatherModule.description}}"
+  },
+  "App": {
+    "title": "Temperature logger"
+  },
+  "SettingsPopup": {
+    "add": "Add",
+    "description": "Description",
+    "existing-modules": "Please set a name for each module.",
+    "identifier": "Identifier",
+    "remove": "Remove"
+  },
+  "Weathers": {
+    "temperature": "Temperature:",
+    "humidity": "Humidity:",
+    "pressure": "Pressure:"
+  },
+  "WeatherVisualization": {
+    "visualization-title": "Temperature for the last 30 days for "
+  }
+}

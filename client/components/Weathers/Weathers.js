@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import classNames from "classnames";
 import WeatherVizualization from "./WeatherVisualization";
 import { withTracker } from "meteor/react-meteor-data";
@@ -7,21 +8,29 @@ import { weatherModules } from "../../../imports/collections/weatherModule";
 import { Meteor } from "meteor/meteor";
 
 const Weathers = props => {
-  // If no weather information found, just display a message
-  if (props.weathers.length == 0) return <div>No Weather</div>;
-  //Sets the first module as selected
-  let firstWeatherModule = props.weatherModules.find(
-    weatherModule => weatherModule.moduleId === props.weathers[0].moduleId
+  let findWeatherModule = moduleIdToFind => {
+    return props.weatherModules.find(weatherModule => weatherModule.moduleId === moduleIdToFind);
+  };
+
+  const { t } = useTranslation();
+  let firstWeatherModule = findWeatherModule(
+    props.weathers.length > 0 ? props.weathers[0].moduleId : ""
   );
+  console.log(firstWeatherModule);
   const [selectedModule, setSelectedModule] = useState(firstWeatherModule);
+  React.useEffect(() => {
+    setSelectedModule(firstWeatherModule);
+  }, [props.weathers]);
+
+  console.log(props.weathers);
+  console.log(selectedModule);
+  // If no weather information found, just display a message
+  if (!selectedModule) return <div>No Weather</div>;
 
   return (
     <div className="ui cards">
       {props.weathers.map(currentWeather => {
-        // TODO: Create a little utility class for this and displaying the id + description
-        let currentWeatherModule = props.weatherModules.find(
-          weatherModule => weatherModule.moduleId === currentWeather.moduleId
-        );
+        let currentWeatherModule = findWeatherModule(currentWeather.moduleId);
 
         var weatherCardClass = classNames("ui", "card", {
           green: currentWeather.moduleId == selectedModule.moduleId
@@ -35,20 +44,18 @@ const Weathers = props => {
             }}
           >
             <div className="content">
-              <div className="header">
-                Module #{currentWeather.moduleId} - {currentWeatherModule.description}
-              </div>
+              <div className="header">{t("common.module-title", { currentWeatherModule })}</div>
             </div>
             <div className="WeatherLabelValue content">
-              <span className="Label">Temperature:</span>
+              <span className="Label">{t("Weathers.temperature")}</span>
               <span className="Value">{currentWeather.temperature}°C</span>
             </div>
             <div className="WeatherLabelValue content">
-              <span className="Label">Humidity:</span>
+              <span className="Label">{t("Weathers.humidity")}</span>
               <span className="Value">{currentWeather.humidity}%</span>
             </div>
             <div className="WeatherLabelValue content">
-              <span className="Label">Pressure:</span>
+              <span className="Label">{t("Weathers.pressure")}</span>
               <span className="Value">{currentWeather.pressure}</span>
             </div>
           </div>

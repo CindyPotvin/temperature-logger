@@ -1,0 +1,23 @@
+{
+  "common": {
+    "module-title": "#{{currentWeatherModule.moduleId}} - {{currentWeatherModule.description}}"
+  },
+  "App": {
+    "title": "Capteurs de température"
+  },
+  "SettingsPopup": {
+    "add": "Ajouter",
+    "description": "Description",
+    "existing-modules": "Svp définir un nom pour chaque module.",
+    "identifier": "Identificateur",
+    "remove": "Retier"
+  },
+  "Weathers": {
+    "temperature": "Température:",
+    "humidity": "Humidité:",
+    "pressure": "Pression:"
+  },
+  "WeatherVisualization": {
+    "visualization-title": "Température des 30 derniers jours pour "
+  }
+}

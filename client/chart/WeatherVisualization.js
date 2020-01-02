@@ -1,13 +1,11 @@
 import Chart from "chart.js";
 import axios from "axios";
 
-const drawWeatherVisualization = async props => {
+const drawWeatherVisualization = async currentWeatherModule => {
   var ctx = document.getElementById("myChart").getContext("2d");
   let response;
   try {
-    response = await axios.get(
-      "/api/temperatureHistory?moduleId=" + props.currentWeatherModule.moduleId
-    );
+    response = await axios.get("/api/temperatureHistory?moduleId=" + currentWeatherModule.moduleId);
   } catch (error) {
     console.error(error);
   }
@@ -47,6 +45,9 @@ const drawWeatherVisualization = async props => {
             time: {
               unit: "day",
               round: "day",
+              displayFormats: {
+                day: "D/M"
+              },
               ticks: {
                 suggestedMin: new Date(new Date() - 30 * 24 * 60 * 60 * 1000),
                 suggestedMax: new Date(),
