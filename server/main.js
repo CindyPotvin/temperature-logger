@@ -10,7 +10,7 @@ Meteor.startup(() => {
   // **** Meteor publish that will automatically send up to date data.
 
   // Get the current (latest) weather for each module
-  Meteor.publish("currentWeathers", function() {
+  Meteor.publish("currentWeathers", function () {
     // Aggregation example:
     // http://hudsonburgess.com/2017/01/04/mongodb-first-doc-by-group.html
     const pipeline = [
@@ -18,20 +18,20 @@ Meteor.startup(() => {
       {
         $group: {
           _id: "$moduleId",
-          weathers: { $push: "$$ROOT" }
-        }
+          weathers: { $push: "$$ROOT" },
+        },
       },
       {
         $replaceRoot: {
-          newRoot: { $arrayElemAt: ["$weathers", 0] }
-        }
-      }
+          newRoot: { $arrayElemAt: ["$weathers", 0] },
+        },
+      },
     ];
     ReactiveAggregate(this, weathers, pipeline);
   });
 
   // Publish the list of module
-  Meteor.publish("weatherModules", function() {
+  Meteor.publish("weatherModules", function () {
     return weatherModules.find({}, { $sort: { moduleId: 1 } });
   });
 
@@ -55,7 +55,7 @@ Meteor.startup(() => {
 
     weathers.insert({
       createdAt: new Date(),
-      ...currentWeather
+      ...currentWeather,
     });
     response.writeHead(200);
     response.end();
@@ -86,25 +86,39 @@ Meteor.startup(() => {
     const pipeline = [
       {
         $match: {
-          $and: [{ moduleId: moduleId }, { createdAt: { $lte: firstDate, $gte: lastDate } }]
-        }
+          $and: [{ moduleId: moduleId }, { createdAt: { $lte: firstDate, $gte: lastDate } }],
+        },
       },
       {
-        $sort: { createdAt: -1 }
+        $sort: { createdAt: -1 },
       },
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
           temperatureMin: { $min: "$temperature" },
-          temperatureMax: { $max: "$temperature" }
-        }
-      }
+          temperatureMax: { $max: "$temperature" },
+        },
+      },
     ];
     const weathersMinMax = await weathers.rawCollection().aggregate(pipeline);
-    await weathersMinMax.forEach(weather => {
+    await weathersMinMax.forEach((weather) => {
       responseBody.minimumTemperatureData.push({ t: weather._id, y: weather.temperatureMin });
       responseBody.maximumTemperatureData.push({ t: weather._id, y: weather.temperatureMax });
     });
+
+    const weatherSort = (weatherA, weatherB) => {
+      let comparison = 0;
+      if (weatherA.t > weatherB.t) {
+        comparison = 1;
+      } else if (weatherA.t < weatherB.t) {
+        comparison = -1;
+      }
+      return comparison;
+    };
+
+    responseBody.minimumTemperatureData.sort(weatherSort);
+    responseBody.maximumTemperatureData.sort(weatherSort);
+
     // Send the response
     response.setHeader("Content-Type", "application/json");
     response.write(JSON.stringify(responseBody));
