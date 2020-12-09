@@ -13,9 +13,10 @@
     "remove": "Remove"
   },
   "Weathers": {
-    "temperature": "Temperature:",
-    "humidity": "Humidity:",
-    "pressure": "Pressure:"
+    "temperature": "Temperature: ",
+    "humidity": "Humidity: ",
+    "pressure": "Pressure: ",
+    "updatedAt": "Last updated: "
   },
   "WeatherVisualization": {
     "visualization-title": "Temperature for the last 30 days for "

@@ -10,12 +10,13 @@
     "description": "Description",
     "existing-modules": "Svp définir un nom pour chaque module.",
     "identifier": "Identificateur",
-    "remove": "Retier"
+    "remove": "Retirer"
   },
   "Weathers": {
-    "temperature": "Température:",
-    "humidity": "Humidité:",
-    "pressure": "Pression:"
+    "temperature": "Température: ",
+    "humidity": "Humidité: ",
+    "pressure": "Pression: ",
+    "updatedAt": "Dernière mise à jour: "
   },
   "WeatherVisualization": {
     "visualization-title": "Température des 30 derniers jours pour "
