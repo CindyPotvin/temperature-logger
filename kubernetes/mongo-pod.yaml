@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+   name: mongo-temp-logger
+   labels:
+      component: mongodb
+spec:
+   volumes:
+      - name: data-db-temp-logger
+        persistentVolumeClaim:
+           claimName: mongo-data-db-temp-logger
+   containers:
+      - name: mongo-temp-logger
+        image: arm64v8/mongo:3.7.9
+        volumeMounts:
+           - name: data-db-temp-logger
+             mountPath: /data/db-temp-logger

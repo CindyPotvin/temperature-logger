@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: mongo-data-db-temp-logger
+   labels:
+      app: mongo-temp-logger
+spec:
+   storageClassName: local
+   capacity:
+      storage: 2Gi
+   accessModes:
+      - ReadWriteOnce
+   local:
+      path: /tmp/data/db-temp-logger
+   persistentVolumeReclaimPolicy: Retain
+   nodeAffinity:
+      required:
+         nodeSelectorTerms:
+            - matchExpressions:
+                 - key: k3s.io/hostname
+                   operator: In
+                   values:
+                      - cluster-slave-1
