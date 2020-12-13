@@ -16,9 +16,12 @@
     "temperature": "Temperature: ",
     "humidity": "Humidity: ",
     "pressure": "Pressure: ",
-    "updatedAt": "Last updated: "
+    "updated-at": "Last updated: "
   },
   "WeatherVisualization": {
-    "visualization-title": "Temperature for the last 30 days for "
+    "last_30_days": "Last 30 days",
+    "last_day": "Today",
+    "last_hour": "Last hour",
+    "visualization-title": "Temperature for "
   }
 }

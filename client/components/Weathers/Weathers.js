@@ -36,7 +36,7 @@ const Weathers = (props) => {
    return (
       <div>
          <div className="WeatherLastUpdated">
-            {t("Weathers.updatedAt")}
+            {t("Weathers.updated-at")}
             {lastUpdated}
          </div>
          <div className="ui cards">
