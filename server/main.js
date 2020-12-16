@@ -151,7 +151,6 @@ Meteor.startup(() => {
       const weathersMinMax = await weathers.rawCollection().aggregate(pipeline);
 
       await weathersMinMax.forEach((weather) => {
-         console.log(weather);
          responseBody.minimumTemperatureData.push({
             t: weather.temperatureDate,
             y: weather.temperatureMin,
