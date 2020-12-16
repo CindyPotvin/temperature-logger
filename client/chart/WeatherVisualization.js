@@ -7,16 +7,18 @@ Shows the weather information using Chart.js, querying the information from the 
 @param {string} axisType - The X axis to display the data. Supported types: last_hour, last_day and last_30_days
 */
 
-export const AXIS_TYPES = ["last_30_days", "last_hour", "last_day"];
-
+export const AXIS_TYPES = ["last_30_days", "last_day", "last_hour"];
+let chart;
 export const drawWeatherVisualization = async (currentWeatherModule, axisType) => {
    var ctx = document.getElementById("myChart").getContext("2d");
    let response;
    try {
       response = await axios.get(
-         "/api/temperatureHistory?moduleId=" + currentWeatherModule.moduleId
+         "/api/temperatureHistory?moduleId=" +
+            currentWeatherModule.moduleId +
+            "&axisType=" +
+            axisType
       );
-      console.log(response);
    } catch (error) {
       console.error(error);
    }
@@ -26,8 +28,10 @@ export const drawWeatherVisualization = async (currentWeatherModule, axisType) =
    axis.last_hour = {
       type: "time",
       time: {
+         parser: "HH:mm",
          unit: "minute",
          round: "minute",
+         unitStepSize: 5,
          displayFormats: {
             day: "h:mm a",
          },
@@ -42,8 +46,10 @@ export const drawWeatherVisualization = async (currentWeatherModule, axisType) =
    axis.last_day = {
       type: "time",
       time: {
+         parser: "HH:mm",
          unit: "hour",
          round: "hour",
+         unitStepSize: 1,
          displayFormats: {
             day: "h:mm a",
          },
@@ -70,10 +76,13 @@ export const drawWeatherVisualization = async (currentWeatherModule, axisType) =
          },
       },
    };
-   var myChart = new Chart(ctx, {
+
+   if (chart) {
+      chart.destroy();
+   }
+   chart = new Chart(ctx, {
       type: "line",
       data: {
-         labels: response.data.labels,
          datasets: [
             {
                label: "Maximum",

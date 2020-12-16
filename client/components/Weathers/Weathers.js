@@ -8,21 +8,23 @@ import { weatherModules } from "../../../imports/collections/weatherModule";
 import { Meteor } from "meteor/meteor";
 
 const Weathers = (props) => {
-   let findWeatherModule = (moduleIdToFind) => {
-      return props.weatherModules.find(
-         (weatherModule) => weatherModule.moduleId === moduleIdToFind
-      );
+   let findWeather = (moduleIdToFind) => {
+      return props.weathers.find((weather) => weather.moduleId === moduleIdToFind);
    };
 
    const { t } = useTranslation();
-   let firstWeatherModule = findWeatherModule(
-      props.weathers.length > 0 ? props.weathers[0].moduleId : ""
-   );
-   console.log(firstWeatherModule);
-   const [selectedModule, setSelectedModule] = useState(firstWeatherModule);
+
+   const [selectedModule, setSelectedModule] = useState("");
    const [lastUpdated, setLastUpdated] = useState("");
+
    React.useEffect(() => {
-      setSelectedModule(firstWeatherModule);
+      if (!selectedModule) {
+         let firstWeatherModule = props.weatherModules.length > 0 ? props.weatherModules[0] : "";
+         setSelectedModule(firstWeatherModule);
+      }
+   }, [props.weatherModules]);
+
+   React.useEffect(() => {
       if (props.weathers && props.weathers.length > 0) {
          setLastUpdated(props.weathers[props.weathers.length - 1].createdAt.toLocaleString());
       } else {
@@ -31,7 +33,7 @@ const Weathers = (props) => {
    }, [props.weathers]);
 
    // If no weather information found, just display a message
-   if (!selectedModule) return <div>No Weather</div>;
+   if (!selectedModule || props.weathers.length == 0) return <div>No Weather</div>;
 
    return (
       <div>
@@ -40,16 +42,15 @@ const Weathers = (props) => {
             {lastUpdated}
          </div>
          <div className="ui cards">
-            {props.weathers.map((currentWeather) => {
-               let currentWeatherModule = findWeatherModule(currentWeather.moduleId);
-
+            {props.weatherModules.map((currentWeatherModule) => {
+               let currentWeather = findWeather(currentWeatherModule.moduleId);
                var weatherCardClass = classNames("ui", "card", {
-                  green: currentWeather.moduleId == selectedModule.moduleId,
+                  green: currentWeatherModule.moduleId == selectedModule.moduleId,
                });
                return (
                   <div
                      className={weatherCardClass}
-                     key={currentWeather.moduleId}
+                     key={currentWeatherModule.moduleId}
                      onClick={() => {
                         setSelectedModule(currentWeatherModule);
                      }}>
